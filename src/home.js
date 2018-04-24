@@ -1,6 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import TextEntry from "./components/TextEntry"
+import TextEntry from "./components/TruffleObj"
 
 class HelloMessage extends React.Component {
   constructor( props ){
@@ -40,6 +41,7 @@ class HelloMessage extends React.Component {
       Hello {this.props.name}
       <p> Welcome to {this.state.title} </p>
       <TextEntry></TextEntry>
+      <TruffleObj></TruffleObj>
     </div>
   }
 }
