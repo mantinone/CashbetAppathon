@@ -1,17 +1,22 @@
 pragma solidity 0.4.23;
 
-contract Casino {
+contract Dedium {
     address public owner;
-    mapping(string => string) public storageAddressList;
+
+    struct StorageItem {
+        string storageAddress;
+    }
+
+    mapping(string => StorageItem) storageAddressList;
 
     function kill() public {
         owner = msg.sender;
         if(msg.sender == owner) selfdestruct(owner);
     }
-    function create(string storageAddress, string title) public {
-        storageAddressList[title] = storageAddress;
+    function create(string storageAddressInput, string title) public {
+        storageAddressList[title].storageAddress = storageAddressInput;
     }
-    function getAddressByTitle(string title) public returns (string) {
-        return storageAddressList[title];
+    function getAddressByTitle(string title) view public returns (string) {
+        return storageAddressList[title].storageAddress;
     }
 }
