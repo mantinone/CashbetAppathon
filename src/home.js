@@ -3,6 +3,8 @@ import ReactDOM from "react-dom"
 import TextEntry from "./components/TextEntry"
 import Button from "./components/Button"
 import Article from "./components/Article"
+import command from './ServerCommands'
+
 
 
 class HelloMessage extends React.Component {
@@ -21,7 +23,7 @@ class HelloMessage extends React.Component {
   }
 
   componentDidMount(){
-    this.fetchData()
+    this.fetchTitle()
   }
 
   getTextData ( textData ) {
@@ -44,63 +46,28 @@ class HelloMessage extends React.Component {
   }
 
   submitData(){
-    const options = {
-      method: "POST",
-      body: JSON.stringify({textData: this.state.text}),
-      mode: 'cors',
-      headers: new Headers({
-        'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
-        'Content-Type': 'application/json',
-         }),
-      credentials: 'same-origin'
-    }
-    fetch( 'http://localhost:3000/article', options )
-      .then( response => response.json())
+    command.fetchRequest( 'article', 'POST', {textData: this.state.text})
   }
 
   fetchArticles(){
-    const options = {
-      method: "GET",
-      mode: 'cors',
-      headers: new Headers({
-        'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
-        'Content-Type': 'application/json',
-         }),
-      credentials: 'same-origin'
-    }
-    fetch( 'http://localhost:3000/article ')
-      .then( data => data.json())
+    command.fetchRequest( 'article' )
       .then( result => {
-        console.log('result', result);
         this.setState( {
           articles: result.articles
         })
       })
   }
 
-  fetchData(){
-    const options = {
-      method: "GET",
-      mode: 'cors',
-      headers: new Headers({
-        'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
-        'Content-Type': 'application/json',
-         }),
-      credentials: 'same-origin'
-    }
-    fetch( 'http://localhost:3000/data ')
-      .then( data => data.json())
-      .then( result => {
-        console.log('result', result);
-        this.setState( {
-          title: result.title
-        })
+  fetchTitle(){
+    command.fetchRequest( 'data' )
+    .then( result => {
+      this.setState( {
+        title: result.title
       })
-
+    })
   }
 
   render() {
-
     const articleList = this.state.articles.map( article => {
       return <Article text={article.text}></Article>
     })
