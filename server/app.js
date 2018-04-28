@@ -25,6 +25,7 @@ app.get('/', (request, response) => {
 app.get( '/data', (request, response) => response.send( title ))
 
 app.post( '/article', (request, response) => {
+  console.log("hello?");
   //Do your solidity stuff to post an article
   console.log( request.body);
 })

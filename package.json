@@ -5,6 +5,7 @@
   "main": "./server/app.js",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "react": "^16.3.2",
     "react-dom": "^16.3.2"
