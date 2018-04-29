@@ -1,9 +1,10 @@
-import React from "react"
-import ReactDOM from "react-dom"
-import TextEntry from "./components/TextEntry"
-import Button from "./components/Button"
-import Article from "./components/Article"
+import React from 'react'
+import ReactDOM from 'react-dom'
+import TextEntry from './components/TextEntry'
+import Button from './components/Button'
+import Article from './components/Article'
 import command from './ServerCommands'
+import Truffle from './components/TruffleObj'
 
 
 
@@ -75,7 +76,7 @@ class HelloMessage extends React.Component {
     const pageModes = {
       'Intro' : <h2> Use this app to read and publish articles on the Ethereum Network! </h2>,
       'Write' : <div><TextEntry getTextData={this.getTextData}></TextEntry>
-        <Button name="submit" onClick={this.submitData}></Button></div>,
+        <Button name='submit' onClick={this.submitData}></Button></div>,
       'Read' : <div>{articleList}</div>
     }
 
@@ -86,10 +87,11 @@ class HelloMessage extends React.Component {
       <p> Welcome to {this.state.title} </p>
       <Button name='Write an Article' onClick={this.writeMode}></Button>
       <Button name='Read Articles' onClick={this.readMode}></Button>
+      <Truffle></Truffle>
       {pageBody}
     </div>
   }
 }
 
 var mountNode = document.getElementById('app')
-ReactDOM.render( <HelloMessage name="Tarun" />, mountNode )
+ReactDOM.render( <HelloMessage name='Tarun' />, mountNode )
