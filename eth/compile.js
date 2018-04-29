@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 const buildPath = path.resolve(__dirname, 'build');
 fs.removeSync(buildPath);
 
-dediumPath = path.resolve(__dirname, 'contracts/Medium.sol');
+dediumPath = path.resolve(__dirname, '../contracts/Dedium.sol');
 const source = fs.readFileSync(dediumPath, 'utf-8');
 
 const output = solc.compile(source, 1).contracts;

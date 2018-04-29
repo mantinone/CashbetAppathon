@@ -1,3 +1,5 @@
+const web3 = require('../eth/web3')
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
@@ -27,7 +29,7 @@ app.get( '/data', (request, response) => response.send( title ))
 app.post( '/article', (request, response) => {
   console.log("hello?");
   //Do your solidity stuff to post an article
-  console.log( request.body);
+  response.send(web3)
 })
 
 app.get( '/article', (request, response) => {

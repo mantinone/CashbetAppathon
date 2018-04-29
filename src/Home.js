@@ -87,7 +87,6 @@ class HelloMessage extends React.Component {
       <p> Welcome to {this.state.title} </p>
       <Button name='Write an Article' onClick={this.writeMode}></Button>
       <Button name='Read Articles' onClick={this.readMode}></Button>
-      <Truffle></Truffle>
       {pageBody}
     </div>
   }
