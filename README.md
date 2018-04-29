@@ -9,7 +9,7 @@
 # Setup
 
 1. `ganache-cli --secure --unlock "0x337b6..."`
-1. `truffle compile && truffle migrate`
+1. `truffle compile && truffle migrate --network development`
 1. Run Ganachi GUI application
 1. Copy 12 word recovery phrase from ganache, paste into metamask login recover account
 1. `docker create`
@@ -24,6 +24,8 @@ Ganache hosts the localhost simulation of blockchain, Truffle connects to it, do
 web3 is the JS connection to our Solidity dApp which hosts our IPFS hashes on the blockchain. IPFS is our file storage.   
   
 For the moment, truffle will now allow input from other folders. Also output using migrations is not functioning (see https://github.com/sc-forks/solidity-coverage/issues/184), because of this we have all the truffle folders sitting at root.  
+  
+Truffle can access the solidity contract via `truffle console --network development` then `Dedium.deployed().then(i => {DediumInstance = i})` and can access with `DediumInstance.create` or `DediumInstance.getAddressByTitle`
 
 # Common Problems and how to resolve them
 

@@ -1,7 +1,7 @@
-import web3 from './web3';
-import Campaign from './build/Dedium.json'
+const web3 = require('./web3')
+const Dedium = require('../build/contracts/Dedium.json')
 
-export default (address) => {
+module.exports = (address) => {
   return new web3.eth.Contract(
     JSON.parse(Dedium.interface),
     address
