@@ -1,3 +1,11 @@
+# Installation
+
+1. `npm i`
+1. Install ganache-cli with aptitude or homebrew
+1. `npm i -g truffle`
+1. Install docker
+1. Install IPFS
+
 # Setup
 
 1. `ganache-cli --secure --unlock "0x337b6..."`
