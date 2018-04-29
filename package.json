@@ -7,8 +7,10 @@
     "body-parser": "^1.18.2",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
+    "fs-extra": "^5.0.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
+    "solc": "^0.4.23",
     "web3": "^1.0.0-beta.34"
   },
   "devDependencies": {
@@ -23,6 +25,7 @@
   },
   "scripts": {
     "start": "npm run dist && node ./server/app.js",
+    "compile": "node ./eth/compile.js",
     "test": "test",
     "dist": "webpack"
   },
