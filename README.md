@@ -9,7 +9,9 @@
 # Setup
 
 1. `ganache-cli --secure --unlock "0x337b6..."`
-1. `truffle compile && truffle migrate && truffle deploy`
+1. `truffle compile && truffle migrate`
+1. Run Ganachi GUI application
+1. Copy 12 word recovery phrase from ganache, paste into metamask login recover account
 1. `docker create`
 1. `ipfs init && ipfs daemon`
 
@@ -22,3 +24,7 @@ Ganache hosts the localhost simulation of blockchain, Truffle connects to it, do
 web3 is the JS connection to our Solidity dApp which hosts our IPFS hashes on the blockchain. IPFS is our file storage.   
   
 For the moment, truffle will now allow input from other folders. Also output using migrations is not functioning (see https://github.com/sc-forks/solidity-coverage/issues/184), because of this we have all the truffle folders sitting at root.  
+
+# Common Problems and how to resolve them
+
+* If `truffle migrate` responds with "network up to date" and doesn't give you an address then try running `truffle migrate --reset`
