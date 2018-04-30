@@ -12,12 +12,14 @@ class HelloMessage extends React.Component {
   constructor( props ){
     super(props)
     this.getTextData = this.getTextData.bind(this)
+    this.getTitleData = this.getTitleData.bind(this)
     this.submitData = this.submitData.bind(this)
     this.writeMode = this.writeMode.bind(this)
     this.readMode = this.readMode.bind(this)
     this.state = {
       title: '...Loading',
       text: '',
+      articleTitle: '',
       mode: 'Intro',
       articles: [{text: 'Default text'}]
     }
@@ -30,6 +32,12 @@ class HelloMessage extends React.Component {
   getTextData ( textData ) {
     this.setState({
       text: textData
+    })
+  }
+
+  getTitleData ( textData ) {
+    this.setState({
+      articleTitle: textData
     })
   }
 
@@ -47,12 +55,28 @@ class HelloMessage extends React.Component {
   }
 
   submitData(){
-    command.fetchRequest( 'article', 'POST', {textData: this.state.text})
+    command.fetchRequest( 'article' )
+      .then(text => text.json())
+      .then((result) => {
+        const contract = web3.eth.contract(result.abi).at(result.address)
+        return new Promise((resolve, reject) => {
+          const resolver = (...kwargs) => { resolve(kwargs) }
+          contract.create(this.state.textData, this.state.articleTitle, resolver)
+        })
+      })
   }
 
   fetchArticles(){
     command.fetchRequest( 'article' )
-      .then( result => {
+      .then(text => text.json())
+      .then((result) => {
+        const contract = web3.eth.contract(result.abi).at(result.address)
+        return new Promise((resolve, reject) => {
+          const resolver = (...kwargs) => { resolve(kwargs) }
+          contract.getAddressByTitle(this.state.textData, this.state.articleTitle, resolver)
+        })
+      })
+      .then((article) => {
         this.setState( {
           articles: result.articles
         })
@@ -76,6 +100,7 @@ class HelloMessage extends React.Component {
     const pageModes = {
       'Intro' : <h2> Use this app to read and publish articles on the Ethereum Network! </h2>,
       'Write' : <div><TextEntry getTextData={this.getTextData}></TextEntry>
+        <TextEntry getTextData={this.getTitleData}></TextEntry>
         <Button name='submit' onClick={this.submitData}></Button></div>,
       'Read' : <div>{articleList}</div>
     }
