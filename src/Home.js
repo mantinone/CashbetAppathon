@@ -19,7 +19,6 @@ class HelloMessage extends React.Component {
     this.readMode = this.readMode.bind(this)
     this.fetchArticles = this.fetchArticles.bind(this)
     this.state = {
-      title: '...Loading',
       text: '',
       articleTitle: '',
       searchTitle: '',
@@ -30,7 +29,6 @@ class HelloMessage extends React.Component {
   }
 
   componentDidMount(){
-    this.fetchTitle()
     this.fetchContract()
   }
 
@@ -90,15 +88,6 @@ class HelloMessage extends React.Component {
       })
   }
 
-  fetchTitle(){
-    command.fetchRequest( 'data' )
-    .then( result => {
-      this.setState( {
-        title: result.title
-      })
-    })
-  }
-
   render() {
     const articleList = this.state.articles.map( article => {
       return <Article text={article.text}></Article>
@@ -106,19 +95,24 @@ class HelloMessage extends React.Component {
 
     const pageModes = {
       'Intro' : <h2> Use this app to read and publish articles on the Ethereum Network! </h2>,
-      'Write' : <div><TextEntry placeholder='Body' getTextData={this.getTextData}></TextEntry>
-        <TextEntry placeholder='Title' getTextData={this.getTitleData}></TextEntry>
-        <Button name='submit' onClick={this.submitData}></Button></div>,
-      'Read' : <div><TextEntry placeholder='Title' getTextData={this.getSearchData}></TextEntry>
-      <Button name='submit' onClick={this.fetchArticles}></Button>
-      {articleList}</div>
+      'Write' : <div>
+          <TextEntry placeholder='Title' rows='1' getTextData={this.getTitleData}></TextEntry>
+          <TextEntry placeholder='Body' rows='20' getTextData={this.getTextData}></TextEntry>
+          <Button name='submit' onClick={this.submitData}></Button>
+        </div>,
+      'Read' : <div>
+          <p> Enter search term </p>
+          <TextEntry placeholder='Title' rows='1' getTextData={this.getSearchData}></TextEntry>
+          <Button name='submit' onClick={this.fetchArticles}></Button>
+          {articleList}
+        </div>
     }
 
     const pageBody = pageModes[this.state.mode]
 
     return <div>
       Hello {this.props.name}
-      <p> Welcome to {this.state.title} </p>
+      <p> Welcome to Distributed Blogging </p>
       <Button name='Write an Article' onClick={this.writeMode}></Button>
       <Button name='Read Articles' onClick={this.readMode}></Button>
       {pageBody}

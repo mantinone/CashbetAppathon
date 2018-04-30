@@ -8,6 +8,7 @@ export default class Article extends React.Component {
 
   render() {
     return <div>
+      <h3> {this.props.title||"No Title"} </h3>
       <p> {this.props.text} </p>
     </div>
   }
