@@ -3,7 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const IPFS = require('ipfs')
-const {writeIPFS} = require('./controllers/write-ipfs')
+const { writeIPFS, readIPFS } = require('./controllers/ipfs')
 
 const node = new IPFS({start: false})
 
@@ -23,11 +23,8 @@ app.use( express.static('dist'))
 //   ],
 // }
 
-app.post( '/article', writeIPFS.bind(this, IPFS))
-
-app.get( '/article', (request, response) => {
-  response.send(dedium)
-})
+app.post( '/api/article/write', writeIPFS.bind(this, IPFS) )
+app.post( '/api/article/get', readIPFS.bind(this, IPFS) )
 
 app.get( '/ipfs', (request, response) => {
   let fileMultihash
@@ -42,16 +39,6 @@ app.get( '/ipfs', (request, response) => {
       console.log(`Version: ${version.version}`)
       return true
     })
-    node.files.cat('QmUXTtySmd7LD4p6RG6rZW6RuUuPZXTtNMmRQ6DSQo3aMw', (err, data) => {
-      if(err) {
-        console.error(err)
-        response.sendStatus(500)
-        return false
-      }
-      console.log('\nFile:', data.toString('utf-8'))
-      response.status(200).send(data)
-    })
-    
   })
 })
 

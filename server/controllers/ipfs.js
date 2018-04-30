@@ -40,6 +40,36 @@ function writeIPFS(IPFS, request, response) {
     })
 }
 
+function readIPFS(IPFS, request, response) {
+  node.start()
+    .then(() => {
+      node.files.cat(request.body.hash, (err, data) => {
+        const parsedData = JSON.parse(data.toString('utf-8'))
+        if(err) throw err
+        return parsedData
+      })
+    })
+    .then(data => {
+      return node.stop().then(stopResult => ({data, stopResult}))
+    })
+    .then(({data, stopResult}) => {
+      response.status(200).send({
+        stopResult,
+        title: data.title,
+        article: data.article
+      })
+    })
+    .catch(err => {
+      console.error(err)
+      node.stop()
+        .then((stopResult) => {
+          response.status(500).send(stopResult)
+          console.log(stopStatus)
+        })
+    })
+}
+
 module.exports = {
-  writeIPFS
+  writeIPFS,
+  readIPFS
 }
