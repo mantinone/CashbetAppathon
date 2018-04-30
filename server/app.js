@@ -27,18 +27,11 @@ app.get('/', (request, response) => {
 app.get( '/data', (request, response) => response.send( title ))
 
 app.post( '/article', (request, response) => {
-  console.log("hello?");
-  //Do your solidity stuff to post an article
-  response.send(web3)
-})
-
-app.get('/web3debug', (request, response) => {
-  const dedium = require('../eth/Dedium')
-  response.send(dedium())
+  response.send(new Error('not implemented yet'))
 })
 
 app.get( '/article', (request, response) => {
-  response.send(sampleArticles)
+  response.send(require('../eth/Dedium'))
 })
 
 app.listen( 3000, () => console.log("Listening on port 3000 "))

@@ -8,7 +8,7 @@ const fetchRequest = ( route = '', method = "GET", body = false ) => {
        }),
     credentials: 'same-origin'
   }
-  
+
   if( body !== false ){
     options = Object.assign( options, { body: JSON.stringify(body) })
   }

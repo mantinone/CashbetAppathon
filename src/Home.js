@@ -13,6 +13,7 @@ class HelloMessage extends React.Component {
     super(props)
     this.getTextData = this.getTextData.bind(this)
     this.getTitleData = this.getTitleData.bind(this)
+    this.searchTitleData = this.searchTitleData.bind(this)
     this.submitData = this.submitData.bind(this)
     this.writeMode = this.writeMode.bind(this)
     this.readMode = this.readMode.bind(this)
@@ -20,6 +21,7 @@ class HelloMessage extends React.Component {
       title: '...Loading',
       text: '',
       articleTitle: '',
+      searchTitle: '',
       mode: 'Intro',
       articles: [{text: 'Default text'}]
     }
@@ -41,6 +43,12 @@ class HelloMessage extends React.Component {
     })
   }
 
+  getTitleData ( textData ) {
+    this.setState({
+      searchTitleData: textData
+    })
+  }
+
   writeMode(){
     this.setState({
       mode: 'Write'
@@ -48,7 +56,6 @@ class HelloMessage extends React.Component {
   }
 
   readMode(){
-    this.fetchArticles()
     this.setState({
       mode: 'Read'
     })
@@ -73,7 +80,7 @@ class HelloMessage extends React.Component {
         const contract = web3.eth.contract(result.abi).at(result.address)
         return new Promise((resolve, reject) => {
           const resolver = (...kwargs) => { resolve(kwargs) }
-          contract.getAddressByTitle(this.state.textData, this.state.articleTitle, resolver)
+          contract.getAddressByTitle(this.state.searchTitleData, resolver)
         })
       })
       .then((article) => {
@@ -82,7 +89,7 @@ class HelloMessage extends React.Component {
         })
       })
   }
-
+  // searchTitleData
   fetchTitle(){
     command.fetchRequest( 'data' )
     .then( result => {
@@ -102,7 +109,9 @@ class HelloMessage extends React.Component {
       'Write' : <div><TextEntry getTextData={this.getTextData}></TextEntry>
         <TextEntry getTextData={this.getTitleData}></TextEntry>
         <Button name='submit' onClick={this.submitData}></Button></div>,
-      'Read' : <div>{articleList}</div>
+      'Read' : <div><TextEntry getTextData={this.searchTitleData}></TextEntry>
+      <Button name='submit' onClick={this.fetchArticles}></Button>
+      {articleList}</div>
     }
 
     const pageBody = pageModes[this.state.mode]
