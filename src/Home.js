@@ -13,22 +13,25 @@ class HelloMessage extends React.Component {
     super(props)
     this.getTextData = this.getTextData.bind(this)
     this.getTitleData = this.getTitleData.bind(this)
-    this.searchTitleData = this.searchTitleData.bind(this)
+    this.getSearchData = this.getSearchData.bind(this)
     this.submitData = this.submitData.bind(this)
     this.writeMode = this.writeMode.bind(this)
     this.readMode = this.readMode.bind(this)
+    this.fetchArticles = this.fetchArticles.bind(this)
     this.state = {
       title: '...Loading',
       text: '',
       articleTitle: '',
       searchTitle: '',
       mode: 'Intro',
+      contract: {},
       articles: [{text: 'Default text'}]
     }
   }
 
   componentDidMount(){
     this.fetchTitle()
+    this.fetchContract()
   }
 
   getTextData ( textData ) {
@@ -43,9 +46,9 @@ class HelloMessage extends React.Component {
     })
   }
 
-  getTitleData ( textData ) {
+  getSearchData ( textData ) {
     this.setState({
-      searchTitleData: textData
+      searchTitle: textData
     })
   }
 
@@ -62,34 +65,30 @@ class HelloMessage extends React.Component {
   }
 
   submitData(){
+    this.state.contract.create(this.state.text, this.state.articleTitle, console.log)
+  }
+
+  fetchArticles(){
+    this.state.contract.getAddressByTitle(this.state.searchTitle, result => {
+      this.setState( {
+        articles: [{text: result}]
+      })
+    })
+  }
+
+  fetchContract(){
     command.fetchRequest( 'article' )
-      .then(text => text.json())
-      .then((result) => {
-        const contract = web3.eth.contract(result.abi).at(result.address)
-        return new Promise((resolve, reject) => {
-          const resolver = (...kwargs) => { resolve(kwargs) }
-          contract.create(this.state.textData, this.state.articleTitle, resolver)
+      .then(result => {
+        const interfaceObj = web3.eth.contract(result.abi)
+        const contract = interfaceObj.at(result.address)
+        interfaceObj.eth.defaultAccount = interfaceObj.eth.coinbase
+
+        this.setState( {
+          contract: contract
         })
       })
   }
 
-  fetchArticles(){
-    command.fetchRequest( 'article' )
-      .then(text => text.json())
-      .then((result) => {
-        const contract = web3.eth.contract(result.abi).at(result.address)
-        return new Promise((resolve, reject) => {
-          const resolver = (...kwargs) => { resolve(kwargs) }
-          contract.getAddressByTitle(this.state.searchTitleData, resolver)
-        })
-      })
-      .then((article) => {
-        this.setState( {
-          articles: result.articles
-        })
-      })
-  }
-  // searchTitleData
   fetchTitle(){
     command.fetchRequest( 'data' )
     .then( result => {
@@ -106,10 +105,10 @@ class HelloMessage extends React.Component {
 
     const pageModes = {
       'Intro' : <h2> Use this app to read and publish articles on the Ethereum Network! </h2>,
-      'Write' : <div><TextEntry getTextData={this.getTextData}></TextEntry>
-        <TextEntry getTextData={this.getTitleData}></TextEntry>
+      'Write' : <div><TextEntry placeholder='Body' getTextData={this.getTextData}></TextEntry>
+        <TextEntry placeholder='Title' getTextData={this.getTitleData}></TextEntry>
         <Button name='submit' onClick={this.submitData}></Button></div>,
-      'Read' : <div><TextEntry getTextData={this.searchTitleData}></TextEntry>
+      'Read' : <div><TextEntry placeholder='Title' getTextData={this.getSearchData}></TextEntry>
       <Button name='submit' onClick={this.fetchArticles}></Button>
       {articleList}</div>
     }
