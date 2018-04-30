@@ -1,14 +1,16 @@
 {
   "name": "cashbetappathon",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "./server/app.js",
   "dependencies": {
     "body-parser": "^1.18.2",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
+    "fs-extra": "^5.0.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
+    "solc": "^0.4.23",
     "web3": "^1.0.0-beta.34"
   },
   "devDependencies": {
@@ -23,6 +25,7 @@
   },
   "scripts": {
     "start": "npm run dist && node ./server/app.js",
+    "compile": "node ./eth/compile.js",
     "test": "test",
     "dist": "webpack"
   },
@@ -30,8 +33,8 @@
     "type": "git",
     "url": "git+https://github.com/mantinone/CashbetAppathon.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Max (mantinone), Serafin (lumodon)",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mantinone/CashbetAppathon/issues"
   },

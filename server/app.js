@@ -1,3 +1,5 @@
+const web3 = require('../eth/web3')
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
@@ -25,13 +27,11 @@ app.get('/', (request, response) => {
 app.get( '/data', (request, response) => response.send( title ))
 
 app.post( '/article', (request, response) => {
-  console.log("hello?");
-  //Do your solidity stuff to post an article
-  console.log( request.body);
+  response.send(new Error('not implemented yet'))
 })
 
 app.get( '/article', (request, response) => {
-  response.send(sampleArticles)
+  response.send(require('../eth/Dedium'))
 })
 
 app.listen( 3000, () => console.log("Listening on port 3000 "))
