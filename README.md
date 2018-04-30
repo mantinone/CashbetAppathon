@@ -13,7 +13,7 @@
 1. Open `ethconfig.json` and set `address` to the address specefied from previous command.
 1. Copy 12 word recovery phrase from ganache, paste into metamask login using recover account
 1. `docker create`
-1. `ipfs init && ipfs daemon`
+1. `ipfs init && ipfs daemon --offline`
 1. Write down your IPFS hash, it looks something like  
 `ipfs cat /ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme`
 
