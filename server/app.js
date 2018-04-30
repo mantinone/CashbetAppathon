@@ -34,8 +34,7 @@ app.post( '/article', (request, response) => {
 
 app.get('/web3debug', (request, response) => {
   const dedium = require('../eth/Dedium')
-  debugger;
-  response.send(dedium)
+  response.send(dedium())
 })
 
 app.get( '/article', (request, response) => {
