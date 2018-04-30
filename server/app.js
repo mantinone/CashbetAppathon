@@ -3,6 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const IPFS = require('ipfs')
+const {writeIPFS} = require('./controllers/write-ipfs')
 
 const node = new IPFS({start: false})
 
@@ -22,35 +23,10 @@ app.use( express.static('dist'))
 //   ],
 // }
 
-app.post( '/article', (request, response) => {
-  const data = Buffer.from(JSON.stringify({
-    title: request.body.title,
-    article: request.body.article
-  }), 'utf-8')
-
-  node.start()
-    .then(() => {
-      node.files.add({
-        path: Buffer.from(request.body.title).toString('base64'),
-        content: data
-      }, (err, filesAdded) => {
-        if(err) throw err
-        console.log(`\nAdded file: ${filesAdded[0].path, filesAdded[0].hash}`)
-      })
-    })
-    .catch(err => {
-      console.error(err)
-      node.stop()
-        .then((stopResult) => {
-          response.status(500).send(stopResult)
-          console.log(stopStatus)
-        })
-    })
-  response.send(new Error('not implemented yet'))
-})
+app.post( '/article', writeIPFS.bind(this, IPFS))
 
 app.get( '/article', (request, response) => {
-  response.send(require('../eth/Dedium'))
+  response.send(dedium)
 })
 
 app.get( '/ipfs', (request, response) => {
