@@ -14,6 +14,8 @@
 1. Copy 12 word recovery phrase from ganache, paste into metamask login using recover account
 1. `docker create`
 1. `ipfs init && ipfs daemon`
+1. Write down your IPFS hash, it looks something like  
+`ipfs cat /ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme`
 
 Note that everytime you close and open Ganache, you'll be creating a whole new blockchain. Your truffle migration for Dedium.sol will have a different address that you'll have to enter into ethconfig.json, and you'll need to login with a new metamask account.  
   
@@ -34,3 +36,10 @@ Truffle can access the solidity contract via `truffle console --network developm
 # Common Problems and how to resolve them
 
 * If `truffle migrate` responds with "network up to date" and doesn't give you an address then try running `truffle migrate --reset`
+
+# Notes
+
+If you init IPFS too many times or in the wrong directory, it might be beneficial to reset your IPFS:  
+`ipfs pin ls --type recursive | cut -d' ' -f1 | xargs -n1 ipfs pin rm  `  
+`ipfs repo gc  `  
+
