@@ -17,7 +17,12 @@ export default class TextEntry extends React.Component {
 
   render() {
     return <div>
-      <textarea placeholder={this.props.placeholder} rows="30" cols="80" onChange={this.textChange}></textarea>
+      <textarea
+        placeholder={this.props.placeholder}
+        rows={this.props.rows}
+        cols="80"
+        onChange={this.textChange}>
+      </textarea>
     </div>
   }
 
