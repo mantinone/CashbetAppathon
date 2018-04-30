@@ -1,5 +1,3 @@
-const dedium = require('../../eth/Dedium')
-
 function writeIPFS(IPFS, request, response) {
   const data = Buffer.from(JSON.stringify({
     title: request.body.title,
@@ -21,14 +19,7 @@ function writeIPFS(IPFS, request, response) {
       return node.stop().then(stopResult => ({fileHash, stopResult}))
     })
     .then(({fileHash, stopResult}) => {
-      response.status(200).send({
-        stopResult,
-        dedium: {
-          abi: dedium.abi,
-          address: dedium.address,
-          filehash: fileHash
-        }
-      })
+      response.status(200).send({ stopResult, fileHash })
     })
     .catch(err => {
       console.error(err)

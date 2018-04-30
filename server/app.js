@@ -2,6 +2,7 @@ const web3 = require('../eth/web3')
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
+const dedium = require('../eth/Dedium')
 const IPFS = require('ipfs')
 const { writeIPFS, readIPFS } = require('./controllers/ipfs')
 
@@ -25,6 +26,10 @@ app.use( express.static('dist'))
 
 app.post( '/api/article/write', writeIPFS.bind(this, IPFS) )
 app.post( '/api/article/get', readIPFS.bind(this, IPFS) )
+
+app.get( '/dedium', (request, response) => {
+  response.status(200).send(dedium)
+})
 
 app.get( '/ipfs', (request, response) => {
   let fileMultihash
