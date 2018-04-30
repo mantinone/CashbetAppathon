@@ -65,11 +65,11 @@ class HelloMessage extends React.Component {
   }
 
   submitData(){
-    this.state.contract.create(this.state.text, this.state.articleTitle, console.log)
+    this.state.contract.create(this.state.text, this.state.articleTitle, _=>{})
   }
 
   fetchArticles(){
-    this.state.contract.getAddressByTitle(this.state.searchTitle, result => {
+    this.state.contract.getAddressByTitle.call(this.state.searchTitle, (err, result) => {
       this.setState( {
         articles: [{text: result}]
       })
@@ -86,6 +86,7 @@ class HelloMessage extends React.Component {
         this.setState( {
           contract: contract
         })
+        window.globalObj = {contract: contract}
       })
   }
 
