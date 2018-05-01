@@ -75,7 +75,7 @@ class HelloMessage extends React.Component {
   }
 
   fetchContract(){
-    command.fetchRequest( 'article' )
+    command.fetchRequest( 'dedium' )
       .then(result => {
         const interfaceObj = web3.eth.contract(result.abi)
         const contract = interfaceObj.at(result.address)
